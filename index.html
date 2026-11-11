@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Agent Releases · Canary Judge · Félix</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<aside class="side">
+  <div class="brand"><img src="assets/logo_white.svg" alt="Félix" width="78"><span class="env">Ops</span></div>
+  <div class="navsec">Operations</div>
+  <a class="nav"><i data-i="chat"></i>Conversations</a>
+  <a class="nav"><i data-i="send"></i>Transfers</a>
+  <a class="nav"><i data-i="bank"></i>Payout partners</a>
+  <a class="nav"><i data-i="shield"></i>Risk &amp; compliance</a>
+  <div class="navsec">Agent</div>
+  <a class="nav on"><i data-i="rocket"></i>Releases</a>
+  <a class="nav"><i data-i="check"></i>Evals</a>
+  <a class="nav"><i data-i="tool"></i>Prompts &amp; tools</a>
+  <a class="nav"><i data-i="grid"></i>Maestro runtime</a>
+  <div class="side-foot"><span class="av">EO</span><div><b>EngOps</b><br><span>On call</span></div></div>
+</aside>
+
+<div class="main">
+  <header class="top">
+    <div class="crumbs">Agent <span>/</span> Releases <span>/</span> <b id="crumbRel"></b></div>
+    <div class="top-r"><span class="pill-env">Production</span><span class="search">Search conversations, transfers…</span></div>
+  </header>
+
+  <section class="hero card">
+    <div class="hero-l">
+      <div class="rel-id"><span id="relId"></span><span class="status" id="status"></span></div>
+      <h1 id="relTitle"></h1>
+      <div class="meta" id="relMeta"></div>
+    </div>
+    <div class="hero-r">
+      <div class="seg"><button class="on">Canary judge</button><button>Eval suite</button><button>Diff</button></div>
+    </div>
+    <div class="decision" id="decision"></div>
+  </section>
+
+  <section class="kpis">
+    <div class="kpi card"><div class="k">Canary conversations</div><div class="v" id="kN"></div><div class="s" id="kNs"></div></div>
+    <div class="kpi card"><div class="k">Transfer completed</div><div class="v" id="kC"></div><div class="s" id="kCs"></div></div>
+    <div class="kpi card"><div class="k">Handed to a human</div><div class="v" id="kH"></div><div class="s" id="kHs"></div></div>
+    <div class="kpi card"><div class="k">Amount or recipient corrected</div><div class="v" id="kX"></div><div class="s" id="kXs"></div></div>
+  </section>
+
+  <section class="grid">
+    <div class="card segcard">
+      <div class="ch"><h2>Corrections after confirmation, by corridor and input</h2><span class="sub">canary minus baseline · e-value vs e-BH threshold</span></div>
+      <table class="seg-t" id="segT"><thead><tr><th>Corridor</th><th>Text</th><th>Voice note</th></tr></thead><tbody></tbody></table>
+      <div class="legend"><span class="sw sw-bad"></span>harmful discovery (e-BH) <span class="sw sw-ok"></span>within tolerance <span class="sw sw-open"></span>still collecting</div>
+      <div class="detail" id="detail"></div>
+    </div>
+    <div class="phone-wrap">
+      <div class="phone">
+        <div class="ph-top"><span>11:43</span><span class="ph-ic">▲ ▮</span></div>
+        <div class="ph-head"><span class="ph-av"><svg viewBox="0 0 24 24" width="22" height="22"><path d="M7 5h11l-1 3.4H10.6l-.5 2H15l-1 3.3H9.2L7.9 19H4.6L7 5z" fill="#082422"/></svg></span><b>Félix</b><span class="ph-tag" id="phTag"></span></div>
+        <div class="ph-body" id="chat"></div>
+      </div>
+      <div class="ph-cap" id="phCap"></div>
+    </div>
+  </section>
+
+  <section class="grid2">
+    <div class="card">
+      <div class="ch col"><h2>Evidence over the canary</h2><span class="sub">log e-value; crossing the line is a discovery at α = 5% across all <b id="kCells"></b> cells</span></div>
+      <svg id="evChart" viewBox="0 0 640 230" preserveAspectRatio="none"></svg>
+      <div class="ckey"><span><i style="background:#f26629"></i><b id="keyTrig"></b></span><span><i style="background:#082422"></i>Overall corrections</span><span><i style="background:#1fc7c6"></i>Overall completion</span><span><i class="dash"></i>e-BH line for the top cell</span></div>
+    </div>
+    <div class="card">
+      <div class="ch col"><h2>Is the judge trustworthy?</h2><span class="sub">replays where the canary is identical to baseline (A/A)</span></div>
+      <div class="cal" id="cal"><div class="calrow"><span>Running A/A replays…</span></div></div>
+      <p class="note" id="calNote"></p>
+      <div class="rules">
+        <div><b>Roll back</b> as soon as any guardrail cell (handoff, corrections) in any corridor × input segment is a harmful discovery under e-BH.</div>
+        <div><b>Promote</b> when overall completion's confidence sequence clears −1 pt and every guardrail cell is shown within tolerance (corrections +4 pt, handoff +6 pt).</div>
+      </div>
+    </div>
+  </section>
+  <footer class="foot">Unofficial concept demo by Mohith Gajjela. Not affiliated with Félix. Synthetic data; no real customers or conversations.</footer>
+</div>
+<script src="https://unpkg.com/lucide@0.469.0/dist/umd/lucide.min.js"></script>
+<script src="core/judge.js"></script>
+<script src="data/scenario.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
